@@ -12,3 +12,16 @@ export async function get(endpoint, accessToken) {
   return fetch(path, options)
   .then((response) => response.json());
 }
+
+export async function trackFeatures(trackId, accessToken) {
+  let path = SPOTIFY_URL + '/v1/audio-analysis/' + trackId;
+
+  const options = {
+    headers: {
+      'Authorization': 'Bearer ' + accessToken
+    }
+  };
+
+  return fetch(path, options)
+  .then((response) => response.json());
+}

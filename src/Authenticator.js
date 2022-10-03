@@ -1,7 +1,7 @@
 const CLIENT_ID = "04c1cbfe68de4f2bb0c7e016ee6c1733";
 const CLIENT_SECRET = "d43ad4e7614140f4a41c2df1afa31f15"; // TODO: remove this if publishing app;
 const REDIRECT_URI = "http://localhost:3000";
-const SCOPE = "user-modify-playback-state+user-read-recently-played+user-read-playback-position+playlist-read-collaborative+app-remote-control+user-read-playback-state+streaming+user-library-modify+user-read-currently-playing+user-library-read+playlist-read-private+playlist-modify-private"
+const SCOPE = "user-modify-playback-state+user-read-recently-played+user-read-playback-position+playlist-read-collaborative+app-remote-control+user-read-playback-state+streaming+user-library-modify+user-read-currently-playing+user-library-read+playlist-read-private+playlist-modify-private+user-read-email+user-read-private"
 
 const LOGIN_URL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&scope=${SCOPE}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
 
