@@ -16,12 +16,8 @@ function App() {
     authenticator.getAccessToken()
       .then(token => {
       getPlaybackState(token);
-      player.bind(token);
 
-      const script = document.createElement("script");
-      script.src = "https://sdk.scdn.co/spotify-player.js";
-      script.async = true;
-      document.body.appendChild(script);
+      // player.bind(token);
     });
   }, []);
 
@@ -36,11 +32,30 @@ function App() {
   }
 
   async function getTrackFeatures() {
-    const trackId = '6ovkLF42qFLN7VqKX0r0jT';
     authenticator.getAccessToken().then(async (token) => {
-      const features = await trackFeatures(trackId, token);
+      const features = await trackFeatures(currentTrack.id, token);
       console.log(features);
+
+      const timeSignature = 4;
+      features.bars.forEach(bar => {
+        console.log("Setting bar");
+        setTimeout(() => flash("tempo-1"), bar.start * 1000);
+
+        setTimeout(() => flash("tempo-2"), bar.start * 1000 + (bar.duration / 4 * 1000));
+        setTimeout(() => flash("tempo-2"), bar.start * 1000 + (bar.duration / 4 * 1000 * 2));
+        setTimeout(() => flash("tempo-2"), bar.start * 1000 + (bar.duration / 4 * 1000 * 3));
+      });
     });
+  }
+
+  function flash(id) {
+    const element = document.getElementById(id);
+    element.style.transitionDuration = '0s'
+    element.style.backgroundColor = '#ff0000';
+    setTimeout(() => {
+      element.style.transitionDuration = '0.5s';
+      element.style.backgroundColor = '#eeeeee';
+    }, 10)
   }
 
   return (
@@ -54,8 +69,14 @@ function App() {
         </div>
       }
 
-      <button id="togglePlay">Toggle Play</button>
-      <button id="getTrackFeatures" onClick={getTrackFeatures}>Get Track Features</button>
+      <button id="togglePlay">Toggle Play</button><br />
+      <button id="getTrackFeatures" onClick={getTrackFeatures}>Get Track Features</button><br />
+      <button onClick={() => flash('tempo-1')}>Flash</button>
+
+      <div>
+        <div id="tempo-1" style={{borderRadius: "25px", width: "50px", height: "50px", margin: "20px", display: 'inline-block', background: '#eee', transitionProperty: 'background'}}></div>
+        <div id="tempo-2" style={{borderRadius: "25px", width: "50px", height: "50px", margin: "20px", display: 'inline-block', background: '#eee', transitionProperty: 'background'}}></div>
+      </div>
     </div>
   );
 }

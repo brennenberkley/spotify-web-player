@@ -1,5 +1,17 @@
 export default class SpotifyPlayer {
   bind(accessToken) {
+    this._addListeners(accessToken);
+    this._embedScript();
+  }
+
+  _embedScript() {
+    const script = document.createElement("script");
+    script.src = "https://sdk.scdn.co/spotify-player.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }
+
+  _addListeners(accessToken) {
     window.onSpotifyWebPlaybackSDKReady = () => {
       // eslint-disable-next-line no-undef
       const player = new Spotify.Player({
