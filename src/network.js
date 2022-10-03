@@ -9,7 +9,6 @@ export async function get(endpoint, accessToken) {
     }
   };
 
-  await fetch(path, options)
-  .then((response) => response.json())
-  .then((data) => console.log(data.body));
+  return fetch(path, options)
+  .then((response) => response.json());
 }
