@@ -1,8 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import { get } from './network';
 import Authenticator from './Authenticator';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const [authenticator, _] = useState(new Authenticator());
@@ -28,7 +27,7 @@ function App() {
     <div className="App">
       {currentTrack &&
         <div>
-          <img src={currentTrack.album.images[0].url} alt="Album cover" />
+          <img src={currentTrack.album.images[0].url} alt="Album cover" height="300"/>
           <h1>{currentTrack.name}</h1>
           <div>{currentTrack.artists.map(artist => artist.name).join(', ')}</div>
           <div>{currentTrack.album.name}</div>
