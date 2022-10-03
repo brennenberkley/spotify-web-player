@@ -9,11 +9,11 @@ const scope = "user-modify-playback-state+user-read-recently-played+user-read-pl
 
 const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&scope=${scope}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
-// get('/me/player', code);
-
-console.log(url);
-
 function getAuthToken() {
+  if (localStorage.getItem("spotify_access_token")) { // TODO: Check if expired
+    console.log("Have access token", localStorage.getItem("spotify_access_token"));
+    return;
+  }
   let params = new URLSearchParams(window.location.search);
   let code = params.get('code');
   if (!code) {
@@ -49,6 +49,10 @@ function getAuthToken() {
 }
 
 getAuthToken();
+
+// returns a 204 No Content code if not playing
+
+get('/me/player', localStorage.getItem("spotify_access_token"));
 
 function App() {
   return (
