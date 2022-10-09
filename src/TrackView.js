@@ -4,47 +4,10 @@ import './TrackView.css';
 const defaultColor = {r: 50, g: 50, b: 50};
 
 function TrackView(props) {
-  const [albumOffset, setAlbumOffset] = useState(0);
-  const [trackInfoOffset, setTrackInfoOffset] = useState(0);
   const [albumOnRight, setAlbumOnRight] = useState(false);
 
   useEffect(() => {
-    // Update the spacing based on our existing offset
-    let albumArt = document.querySelector('.albumArt');
-    let trackInfo = document.querySelector('.trackInfo');
-
-    if (albumArt && trackInfo) {
-      if (albumOnRight) {
-        albumArt.style.left = null;
-        trackInfo.style.left = null;
-        albumArt.style.right = albumOffset + 'px';
-        trackInfo.style.right = trackInfoOffset + 'px';
-      } else {
-        albumArt.style.right = null;
-        trackInfo.style.right = null;
-        albumArt.style.left = albumOffset + 'px';
-        trackInfo.style.left = trackInfoOffset + 'px';
-      }
-    }
-  });
-
-  useEffect(() => {
-    // Calculate the offset for the current song
-    let extraSpace = document.querySelector('.extraSpace');
-
-    if (extraSpace) {
-      let albumWidth = document.querySelector('.albumArt').clientWidth;
-      let windowWidth = document.querySelector('.contentWrapper').clientWidth;
-      let centered = (windowWidth - albumWidth) / 2;
-      let available = Math.min(centered - 50, extraSpace.clientWidth);
-
-      let offset = available * Math.random();
-      offset = 0; // Disable random offset for now
-
-      setAlbumOffset(offset);
-      setTrackInfoOffset(extraSpace.clientWidth / 2 + offset / 2);
-      setAlbumOnRight(Math.random() < 0.5);
-    }
+    setAlbumOnRight(Math.random() < 0.5);
   }, [props.currentTrack?.id])
 
   function toggleFullscreen() {
@@ -68,12 +31,12 @@ function TrackView(props) {
   function trackInfo() {
     return (
       <>
-        <div className="titleSpacer" />
+        <div className={albumOnRight ? "flexGrow2" : "flexGrow1"} />
         <div className="trackInfo" style={{textAlign: albumOnRight ? 'right' : 'left'}}>
           <h1 className="primaryText">{props.currentTrack.name}</h1>
           <div className="secondaryText">{props.currentTrack.artists.map(artist => artist.name).join(', ')}</div>
         </div>
-        <div className="titleSpacer" />
+        <div className={albumOnRight ? "flexGrow1" : "flexGrow2"} />
       </>
     );
   }
@@ -82,8 +45,8 @@ function TrackView(props) {
     if (albumOnRight) {
       return (
         <div className="contentWrapper">
-          <div className="extraSpace" />
           {trackInfo()}
+          <div className="titleSpacer" />
           {albumArt()}
         </div>
       );
@@ -91,8 +54,8 @@ function TrackView(props) {
       return (
         <div className="contentWrapper">
           {albumArt()}
+          <div className="titleSpacer" />
           {trackInfo()}
-          <div className="extraSpace" />
         </div>
       );
     }

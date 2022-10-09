@@ -17,13 +17,27 @@ function App() {
   // On load
   useEffect(() => {
     console.log("Page loaded");
+    // setupPlayer();
+    setupViewer();
+  }, []);
+
+  function setupPlayer() {
     authenticator.getAccessToken()
       .then(token => {
-      // getPlaybackState(token);
-
-      player.bind(token, updateTrack);
+        player.bind(token, updateTrack);
     });
-  }, []);
+  }
+  function setupViewer() {
+    authenticator.getAccessToken()
+      .then(async token => {
+        // returns a 204 No Content code if not playing
+        const currentPlayer = await get('/me/player', token);
+
+        if (currentPlayer.is_playing) {
+          setCurrentTrack(currentPlayer.item);
+        }
+    });
+  }
 
   function updateTrack(trackData) {
     setCurrentTrack(trackData);
@@ -52,16 +66,6 @@ function App() {
       });
     }
   }
-
-  // async function getPlaybackState(token) {
-  //   // returns a 204 No Content code if not playing
-  //   const currentPlayer = await get('/me/player', token);
-  //   console.log(currentPlayer);
-
-  //   if (currentPlayer.is_playing) {
-  //     setCurrentTrack(currentPlayer.item);
-  //   }
-  // }
 
   return (
     <div className="App">
