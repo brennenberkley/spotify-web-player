@@ -7,7 +7,7 @@ import TrackView from './TrackView';
 
 function App() {
   const [authenticator] = useState(new Authenticator());
-  const [player] = useState(new SpotifyPlayer());
+  // const [player] = useState(new SpotifyPlayer());
 
   const [currentTrack, setCurrentTrack] = useState();
 

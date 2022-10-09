@@ -14,14 +14,17 @@ function TrackView(props) {
 
     if (albumArt && trackInfo) {
       if (albumOnRight) {
+        albumArt.style.left = null;
+        trackInfo.style.left = null;
         albumArt.style.right = albumOffset + 'px';
         trackInfo.style.right = trackInfoOffset + 'px';
       } else {
+        albumArt.style.right = null;
+        trackInfo.style.right = null;
         albumArt.style.left = albumOffset + 'px';
         trackInfo.style.left = trackInfoOffset + 'px';
       }
     }
-
   });
 
   useEffect(() => {
@@ -36,8 +39,10 @@ function TrackView(props) {
 
       let offset = available * Math.random();
 
+      console.log(offset, extraSpace.clientWidth);
       setAlbumOffset(offset);
-      setTrackInfoOffset(extraSpace.clientWidth / 2 + offset / 2)
+      setTrackInfoOffset(extraSpace.clientWidth / 2 + offset / 2);
+      setAlbumOnRight(Math.random() < 0.5);
     }
   }, [props.currentTrack?.id])
 
