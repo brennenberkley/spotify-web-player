@@ -93,7 +93,10 @@ export default class Authenticator {
       accessToken = data.access_token;
 
       localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
-      localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token)
+
+      if (data.refresh_token) {
+        localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token)
+      }
 
       let expiration = new Date().getTime() + (data.expires_in * 1000);
 

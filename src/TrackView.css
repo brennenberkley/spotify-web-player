@@ -1,0 +1,54 @@
+.TrackView {
+  background: black;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  height: 75%;
+  margin: 40px;
+  width: 100%;
+  /* background: #222; */
+}
+
+.albumArt {
+  display: block;
+  height: 100%;
+  margin: 0;
+  position: relative;
+  aspect-ratio: 1 / 1;
+}
+
+.trackInfo {
+  margin: 0;
+  flex: 0 1 auto;
+  position: relative;
+  /* background: #333; */
+}
+
+.primaryText {
+  font-size: 30px;
+  color: white;
+  margin: 0;
+}
+
+.secondaryText {
+  font-size: 20px;
+  color: white;
+  margin-top: 5px;
+}
+
+.titleSpacer {
+  flex: 1 0 30px;
+}
+
+.extraSpace {
+  flex: 10000 0 0;
+}
+
