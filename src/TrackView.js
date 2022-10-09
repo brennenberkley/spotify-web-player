@@ -47,8 +47,10 @@ function TrackView(props) {
   }, [props.currentTrack?.id])
 
   function albumArt() {
+    const largestImage = props.currentTrack.album.images.sort((a, b) => b.height - a.height)[0];
+
     return (
-      <img className="albumArt" src={props.currentTrack.album.images[0].url} alt="Album cover"/>
+      <img className="albumArt" src={largestImage.url} alt="Album cover"/>
     );
   }
 

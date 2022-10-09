@@ -10,51 +10,58 @@ function App() {
   const [authenticator] = useState(new Authenticator());
   const [colorAnalyzer] = useState(new ColorAnalyzer());
   const [dominantColor, setDominantColor] = useState(null);
-  // const [player] = useState(new SpotifyPlayer());
+  const [player] = useState(new SpotifyPlayer());
 
   const [currentTrack, setCurrentTrack] = useState();
-
-  // setTimeout(() => setCurrentTrack(prev => ({...prev})), 5000);
 
   // On load
   useEffect(() => {
     console.log("Page loaded");
     authenticator.getAccessToken()
       .then(token => {
-      getPlaybackState(token);
+      // getPlaybackState(token);
 
-      // player.bind(token);
+      player.bind(token, updateTrack);
     });
   }, []);
 
-  async function getPlaybackState(token) {
-    // returns a 204 No Content code if not playing
-    const currentPlayer = await get('/me/player', token);
-    console.log(currentPlayer);
+  function updateTrack(trackData) {
+    setCurrentTrack(trackData);
 
-    if (currentPlayer.is_playing) {
-      setCurrentTrack(currentPlayer.item);
-
-      const images = currentPlayer.item.album.images;
-      const smallestImage = images[images.length - 1];
+    if (trackData?.id !== currentTrack?.id) {
+      const smallestImage = trackData.album.images.sort((a, b) => a.height - b.height)[0];
 
       colorAnalyzer.getDominantColor(smallestImage.url, smallestImage.width, smallestImage.height)
       .then(color => {
         console.log("Got color", color);
 
-        let maxBrightness = 100;
+        let maxBrightness = 150;
+        let minBrightness = 40;
 
         if (color.brightness > maxBrightness) {
           color.r = color.r * maxBrightness / color.brightness;
           color.g = color.g * maxBrightness / color.brightness;
           color.b = color.b * maxBrightness / color.brightness;
+        } else if (color.brightness < minBrightness) {
+          color.r = color.r + (minBrightness - color.brightness);
+          color.g = color.g + (minBrightness - color.brightness);
+          color.b = color.b + (minBrightness - color.brightness);
         }
 
-        console.log("Adjusted color", color);
         setDominantColor(color);
       });
     }
   }
+
+  // async function getPlaybackState(token) {
+  //   // returns a 204 No Content code if not playing
+  //   const currentPlayer = await get('/me/player', token);
+  //   console.log(currentPlayer);
+
+  //   if (currentPlayer.is_playing) {
+  //     setCurrentTrack(currentPlayer.item);
+  //   }
+  // }
 
   return (
     <div className="App">
