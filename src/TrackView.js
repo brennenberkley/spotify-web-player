@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './TrackView.css';
 
+const defaultColor = {r: 50, g: 50, b: 50};
 
 function TrackView(props) {
   const [albumOffset, setAlbumOffset] = useState(0);
@@ -39,7 +40,6 @@ function TrackView(props) {
 
       let offset = available * Math.random();
 
-      console.log(offset, extraSpace.clientWidth);
       setAlbumOffset(offset);
       setTrackInfoOffset(extraSpace.clientWidth / 2 + offset / 2);
       setAlbumOnRight(Math.random() < 0.5);
@@ -85,8 +85,21 @@ function TrackView(props) {
     }
   }
 
+  function formatColor(color) {
+    return `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
+  }
+
+  console.log(props);
+  const light = props.dominantColor || defaultColor;
+  let darkenAmount = 50;
+  const dark = {
+    r: Math.max(0, light.r - darkenAmount),
+    g: Math.max(0, light.g - darkenAmount),
+    b: Math.max(0, light.b - darkenAmount)
+  }
+
   return (
-    <div className="TrackView">
+    <div className="TrackView" style={{ backgroundImage: `linear-gradient(${formatColor(light)}, ${formatColor(dark)})` }}>
       {props.currentTrack && content()}
     </div>
   );
