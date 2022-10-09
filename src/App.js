@@ -35,7 +35,7 @@ function App() {
       .then(color => {
         console.log("Got color", color);
 
-        let maxBrightness = 150;
+        let maxBrightness = 120;
         let minBrightness = 40;
 
         if (color.brightness > maxBrightness) {

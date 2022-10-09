@@ -39,6 +39,7 @@ function TrackView(props) {
       let available = Math.min(centered - 50, extraSpace.clientWidth);
 
       let offset = available * Math.random();
+      offset = 0; // Disable random offset for now
 
       setAlbumOffset(offset);
       setTrackInfoOffset(extraSpace.clientWidth / 2 + offset / 2);
@@ -58,7 +59,7 @@ function TrackView(props) {
     return (
       <>
         <div className="titleSpacer" />
-        <div className="trackInfo">
+        <div className="trackInfo" style={{textAlign: albumOnRight ? 'right' : 'left'}}>
           <h1 className="primaryText">{props.currentTrack.name}</h1>
           <div className="secondaryText">{props.currentTrack.artists.map(artist => artist.name).join(', ')}</div>
         </div>
