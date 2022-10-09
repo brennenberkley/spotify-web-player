@@ -58,6 +58,8 @@ function TrackView(props) {
   function albumArt() {
     const largestImage = props.currentTrack.album.images.sort((a, b) => b.height - a.height)[0];
 
+    console.log(`Using ${largestImage.width} x ${largestImage.height} image`);
+
     return (
       <img className="albumArt" src={largestImage.url} alt="Album cover" onClick={toggleFullscreen}/>
     );
@@ -100,7 +102,6 @@ function TrackView(props) {
     return `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
   }
 
-  console.log(props);
   const light = props.dominantColor || defaultColor;
   let darkenAmount = 50;
   const dark = {
