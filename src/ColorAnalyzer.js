@@ -16,9 +16,21 @@ export default class ColorAnalyzer {
 
         const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
 
-        resolve(this._getDominantColor(imageData.data));
+        resolve(this._toneDown(imageData.data));
       };
     });
+  }
+
+  _toneDown(imageData) {
+    let color = this._getDominantColor(imageData);
+
+    // if (color.brightness > 0.1) {
+      // color.r = 0;
+      // color.g = 0;
+      // color.b = 0;
+    // }
+
+    return color;
   }
 
   _getDominantColor(imageData) {

@@ -66,6 +66,7 @@ function TrackView(props) {
   }
 
   const light = props.dominantColor || defaultColor;
+  // const light = defaultColor;
   let darkenAmount = 50;
   const dark = {
     r: Math.max(0, light.r - darkenAmount),

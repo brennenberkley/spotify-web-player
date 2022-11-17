@@ -35,6 +35,7 @@ function App() {
 
         if (currentPlayer.is_playing) {
           setCurrentTrack(currentPlayer.item);
+          updateTrack(currentPlayer.item);
         }
     });
   }

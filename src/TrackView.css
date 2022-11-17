@@ -37,12 +37,14 @@
 .primaryText {
   font-size: 5vh;
   color: white;
+  opacity: 0.8;
   margin: 0;
 }
 
 .secondaryText {
   font-size: 3.5vh;
   color: white;
+  opacity: 0.6;
   margin-top: 5px;
 }
 
