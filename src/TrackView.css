@@ -27,7 +27,7 @@
 }
 
 .trackInfo {
-  margin: 0 0 10vh;
+  margin: 0 0 2vh;
   flex: 0 1 auto;
   position: relative;
   text-shadow: 0 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
@@ -58,4 +58,3 @@
 .flexGrow2 {
   flex: 2 0 0;
 }
-

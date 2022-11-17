@@ -5,6 +5,8 @@ const defaultColor = {r: 50, g: 50, b: 50};
 
 function TrackView(props) {
   const [albumOnRight, setAlbumOnRight] = useState(false);
+  const [listenerPresent, setListenerPresent] = useState(false);
+  const [useColor, setUseColor] = useState(true);
 
   useEffect(() => {
     setAlbumOnRight(Math.random() < 0.5);
@@ -16,6 +18,17 @@ function TrackView(props) {
     } else {
       document.body.requestFullscreen();
     }
+  }
+
+  if (!listenerPresent) {
+    setListenerPresent(true);
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'c') {
+        console.log("toggle color");
+        setUseColor(oldVal => !oldVal);
+        console.log(useColor);
+      }
+    });
   }
 
   function albumArt() {
@@ -65,9 +78,9 @@ function TrackView(props) {
     return `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
   }
 
-  const light = props.dominantColor || defaultColor;
+  const light = (useColor ? props.dominantColor : defaultColor) || defaultColor;
   // const light = defaultColor;
-  let darkenAmount = 50;
+  let darkenAmount = 65;
   const dark = {
     r: Math.max(0, light.r - darkenAmount),
     g: Math.max(0, light.g - darkenAmount),
