@@ -37,6 +37,8 @@ function App() {
           setCurrentTrack(currentPlayer.item);
           updateTrack(currentPlayer.item);
         }
+
+        setTimeout(setupViewer, 2000);
     });
   }
 
