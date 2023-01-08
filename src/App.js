@@ -9,6 +9,7 @@ import TrackView from './TrackView';
 function App() {
   const [authenticator] = useState(new Authenticator());
   const [colorAnalyzer] = useState(new ColorAnalyzer());
+  const [accessToken, setAcceessToken] = useState("");
   const [dominantColor, setDominantColor] = useState(null);
   const [player] = useState(new SpotifyPlayer());
 
@@ -30,6 +31,9 @@ function App() {
   function setupViewer() {
     authenticator.getAccessToken()
       .then(async token => {
+        console.log(token)
+        setAcceessToken(token)
+
         // returns a 204 No Content code if not playing
         const currentPlayer = await get('/me/player', token);
 
@@ -72,6 +76,7 @@ function App() {
 
   return (
     <div className="App">
+      <h2>{accessToken}</h2>
       <TrackView currentTrack={currentTrack} dominantColor={dominantColor} />
       {/* <button id="togglePlay">Toggle Play</button><br /> */}
     </div>
