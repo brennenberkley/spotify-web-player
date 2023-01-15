@@ -63,7 +63,7 @@ async function getToken(event) {
     }
   } else {
     return {
-      statusCode: 404
+      statusCode: 204
     }
   }
 }
