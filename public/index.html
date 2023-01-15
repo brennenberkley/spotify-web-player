@@ -1,23 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Brennen's Spotify Player"
-    />
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+<head>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+<body>
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+  <script>
+    console.log("Logging from the web player");
 
-    <title>Spotify Player</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    const accessToken = new URLSearchParams(document.location.search).get('accessToken')
+    const deviceName = new URLSearchParams(document.location.search).get('deviceName')
 
-    <canvas id="colorCanvas"></canvas>
-  </body>
-</html>
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const player = new Spotify.Player({
+        name: deviceName,
+        getOAuthToken: callback => { callback(accessToken); },
+        volume: 1.0
+      });
+
+      player.addListener('ready', ({ device_id }) => {
+        console.log('Ready with Device ID', device_id);
+      });
+
+      // Not Ready
+      player.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+      });
+
+      player.addListener('initialization_error', ({ message }) => {
+        console.error(message);
+      });
+
+      player.addListener('authentication_error', ({ message }) => {
+        console.error(message);
+      });
+
+      player.addListener('account_error', ({ message }) => {
+        console.error(message);
+      });
+
+      player.addListener('player_state_changed', (playerData) => {
+        console.log("Player data:", playerData);
+      });
+
+      player.connect();
+    };
+  </script>
+</body>
