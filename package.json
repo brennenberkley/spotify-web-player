@@ -1,11 +1,6 @@
 {
   "scripts": {
-    "deploApi": "rm build/lambda.zip; zip -j build/lambda.zip src/lambda/*; aws lambda update-function-code --function-name SpotifyLogin --zip-file fileb://build/lambda.zip --no-cli-pager && sleep 1s",
-    "buildPlayer": "rm build/player.zip; zip -j build/player.zip public/index.html",
-    "songs": "aws lambda invoke --function-name 'Spotify' --payload '{\"operation\": \"syncLikedSongs\"}' build/run_output.txt --cli-binary-format raw-in-base64-out && cat build/run_output.txt",
-    "playlists": "aws lambda invoke --function-name 'Spotify' --payload '{\"operation\": \"syncPlaylists\"}' build/run_output.txt --cli-binary-format raw-in-base64-out && cat build/run_output.txt",
-    "duplicates": "aws lambda invoke --function-name 'Spotify' --payload '{\"operation\": \"getPlaylistDuplicates\"}' build/run_output.txt --cli-binary-format raw-in-base64-out && cat build/run_output.txt",
-    "noPlaylist": "aws lambda invoke --function-name 'Spotify' --payload '{\"operation\": \"getSongsWithoutPlaylist\"}' build/run_output.txt --cli-binary-format raw-in-base64-out && cat build/run_output.txt"
+    "build": "rm build/player.zip; zip -j build/player.zip public/index.html"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.241.0"
