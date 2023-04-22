@@ -7,6 +7,9 @@
   <div id="accessToken"></div>
   <button id="copy">Copy</button>
   <script src="/login/authenticator.js"></script>
+  <div id="expires"></div>
+  <button id="refresh">Refresh</button>
+
   <script>
     console.log("Getting access token");
     const authenticator = new Authenticator();
@@ -17,9 +20,17 @@
       navigator.clipboard.writeText(accessToken);
     });
 
+    document.getElementById('refresh').addEventListener('click', (event) => {
+      localStorage.clear();
+      location.reload();
+    });
+
     const token = authenticator.getAccessToken().then(token => {
       console.log("Got token", token);
       document.getElementById('accessToken').innerHTML = token;
+
+      const expiration = localStorage.getItem('spotify_access_token_expiration');
+      document.getElementById('expires').innerHTML = `Expires in ${Math.round((expiration - Date.now()) / 60000)} minutes`;
       accessToken = token;
     });
   </script>
