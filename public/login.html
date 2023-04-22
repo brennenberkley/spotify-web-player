@@ -1,0 +1,15 @@
+
+<head>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+<body>
+  <span>Logging in</span>
+  <script src="./js/authenticator.js"></script>
+  <script>
+    console.log("Getting access token");
+    const authenticator = new Authenticator();
+    const token = authenticator.getAccessToken().then(token => {
+      console.log("Got token", token);
+    });
+  </script>
+</body>
