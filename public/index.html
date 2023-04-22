@@ -11,44 +11,55 @@
     const accessToken = new URLSearchParams(document.location.search).get('accessToken')
     const deviceName = new URLSearchParams(document.location.search).get('deviceName')
 
+
     function setStatus(status) {
       document.getElementById('status').innerHTML = `Auth error: ${status}`
     }
 
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      const player = new Spotify.Player({
-        name: deviceName,
-        getOAuthToken: callback => { callback(accessToken); },
-        volume: 1.0
-      });
+    if (!accessToken) {
+      setStatus("Missing parameter: `accessToken`");
+    } else if (!deviceName) {
+      setStatus("Missing parameter: `deviceName`");
+    } else {
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const player = new Spotify.Player({
+          name: deviceName,
+          getOAuthToken: callback => { callback(accessToken); },
+          volume: 1.0
+        });
 
-      player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
-      });
+        player.addListener('ready', ({ device_id }) => {
+          console.log('Ready with Device ID', device_id);
+          setStatus('Ready with Device ID', device_id);
+        });
 
-      // Not Ready
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
-      });
+        // Not Ready
+        player.addListener('not_ready', ({ device_id }) => {
+          console.log('Device ID has gone offline', device_id);
+          setStatus('Device ID has gone offline', device_id);
+        });
 
-      player.addListener('initialization_error', ({ message }) => {
-        console.error(message);
-      });
+        player.addListener('initialization_error', ({ message }) => {
+          console.error(message);
+          setStatus(message);
+        });
 
-      player.addListener('authentication_error', ({ message }) => {
-        console.error(message);
-        setStatus(`Auth error: ${message}`);
-      });
+        player.addListener('authentication_error', ({ message }) => {
+          console.error(message);
+          setStatus(message);
+        });
 
-      player.addListener('account_error', ({ message }) => {
-        console.error(message);
-      });
+        player.addListener('account_error', ({ message }) => {
+          console.error(message);
+          setStatus(message);
+        });
 
-      player.addListener('player_state_changed', (playerData) => {
-        console.log("Player data:", playerData);
-      });
+        player.addListener('player_state_changed', (playerData) => {
+          console.log("Player data:", playerData);
+        });
 
-      player.connect();
-    };
+        player.connect();
+      };
+    }
   </script>
 </body>

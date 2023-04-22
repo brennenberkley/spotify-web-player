@@ -1,8 +1,0 @@
-{
-  "scripts": {
-    "build": "rm build/player.zip; zip -j build/player.zip public/index.html"
-  },
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.241.0"
-  }
-}
