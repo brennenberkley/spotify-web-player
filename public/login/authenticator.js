@@ -98,7 +98,9 @@ class Authenticator {
       console.log("received data", data);
       accessToken = data.access_token;
 
-      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+      if (accessToken) {
+        localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      }
 
       if (data.refresh_token) {
         localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token)
@@ -106,7 +108,10 @@ class Authenticator {
 
       let expiration = new Date().getTime() + (data.expires_in * 1000);
 
-      localStorage.setItem(EXPIRATION_KEY, expiration)
+      if (expiration) {
+        localStorage.setItem(EXPIRATION_KEY, expiration);
+      }
+
       console.info("Token refreshed");
 
       this.pendingTokenRefresh = false;
