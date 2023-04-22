@@ -95,6 +95,7 @@ class Authenticator {
     await window.fetch('https://accounts.spotify.com/api/token', options)
     .then((response) => response.json())
     .then((data) => {
+      console.log("received data", data);
       accessToken = data.access_token;
 
       localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
