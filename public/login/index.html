@@ -3,13 +3,25 @@
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 <body>
-  <span>Logging in</span>
-  <script src="./js/authenticator.js"></script>
+  <span>AccessToken:</span>
+  &nbsp;
+  <span id="accessToken"></span>
+  <button id="copy">Copy</button>
+  <script src="js/authenticator.js"></script>
   <script>
     console.log("Getting access token");
     const authenticator = new Authenticator();
+
+    let accessToken = '';
+
+    document.getElementById('copy').addEventListener('click', (event) => {
+      navigator.clipboard.writeText(accessToken);
+    });
+
     const token = authenticator.getAccessToken().then(token => {
       console.log("Got token", token);
+      document.getElementById('accessToken').innerHTML = token;
+      accessToken = token;
     });
   </script>
 </body>
