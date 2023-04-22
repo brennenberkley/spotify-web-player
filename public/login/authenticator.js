@@ -14,7 +14,7 @@ const EXPIRATION_BUFFER = 2 * 60 * 1000;
 class Authenticator {
   pendingTokenRefresh = false;
 
-  async getAccessToken(callback) {
+  async getAccessToken() {
     let accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
     let expiration = parseInt(localStorage.getItem(EXPIRATION_KEY)) || 0;
     let currentTime = new Date().getTime();
@@ -56,10 +56,13 @@ class Authenticator {
       redirect_uri: REDIRECT_URI
     }).toString();
 
+    console.log('_fetchInitialAccessToken', requestBody);
+
     return await this._fetchAccessToken(requestBody);
   }
 
   async _refreshAccessToken() {
+    console.log('_refreshAccessToken');
     const requestBody = new URLSearchParams({
       grant_type: 'refresh_token',
       refresh_token: localStorage.getItem(REFRESH_TOKEN_KEY),
@@ -70,6 +73,7 @@ class Authenticator {
   }
 
   async _fetchAccessToken(requestBody) {
+    console.log('_fetchAccessToken');
     if (this.pendingTokenRefresh) {
       return;
     }
