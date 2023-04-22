@@ -127,6 +127,6 @@ class Authenticator {
   }
 
   _clearQueryParams() {
-    window.history.replaceState({}, document.title, '/login/');
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 }
